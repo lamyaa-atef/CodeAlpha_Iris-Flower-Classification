@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 # Load the dataset
-df = pd.read_csv("C:\\Users\\Lamyaa\\Downloads\\Iris.csv")
+df = pd.read_csv("Iris.csv")
 
 # Drop the 'Id' column
 df.drop("Id", axis=1, inplace=True)
@@ -19,7 +19,7 @@ print(df.head())
 
 # Visualize pairplot
 sns.pairplot(df, hue='Species')
-plt.title("Pairplot of Iris Dataset")
+plt.savefig("Pairplot_of_Iris_Dataset.png")
 plt.show()
 
 # Split data into features and target
