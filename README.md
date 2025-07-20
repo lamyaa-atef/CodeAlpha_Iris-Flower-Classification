@@ -92,6 +92,21 @@ Below is a **pairplot** showing the relationships between all numeric features, 
 
 ---
 
+## 🧠 Why Random Forest Was Chosen
+
+For this classification task, `RandomForestClassifier` was selected for the following reasons:
+
+- **Supports Multiclass Classification:** Easily handles the three Iris species.
+- **High Accuracy on Small Datasets:** Performs very well even with only 150 samples.
+- **Low Risk of Overfitting:** Combines predictions from multiple decision trees, which increases stability and reduces variance.
+- **No Need for Feature Scaling:** Works directly on the raw numerical data without preprocessing.
+- **Handles Overlapping Features Well:** Effectively classifies even when some species (like Versicolor and Virginica) have similar measurements.
+- **Provides Feature Importance:** Helps in identifying which features (e.g., PetalLengthCm) contribute most to prediction.
+
+Overall, Random Forest was an ideal choice for this clean and structured dataset, and it achieved perfect classification accuracy.
+
+---
+
 ## 🗂 Project Structure
 
 ```
