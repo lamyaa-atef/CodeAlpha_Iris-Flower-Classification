@@ -21,16 +21,16 @@ df.drop("Id", axis=1, inplace=True)
 
 print("Data Info:")
 print(df.info())
-print("\nChecking for Missing Values:")
+print("\nChecking for Missing Values:") # There are no missing values in the dataset
 print(df.isnull().sum())
 
-print("\nChecking for Zeros in Numeric Columns:")
+print("\nChecking for Zeros in Numeric Columns:") # There are no zeros in the dataset, but we check just in case     
 print((df.select_dtypes(include='number') == 0).sum())
 
 print("\nChecking for Duplicates:") # The data is small so we won't delete duplicates
 print(f"Duplicates: {df.duplicated().sum()}")
 
-print("\nData Types:") 
+print("\nData Types:")
 print(df.dtypes)
 
 # Visualize pairplot
