@@ -10,12 +10,31 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 # Load the dataset
 df = pd.read_csv("Iris.csv")
 
-# Drop the 'Id' column
-df.drop("Id", axis=1, inplace=True)
-
 # Show basic info
 print("First 5 rows of the dataset:")
 print(df.head())
+
+# Drop the 'Id' column
+df.drop("Id", axis=1, inplace=True)
+
+# ---------------------- EDA Checks ----------------------
+
+print("Data Info:")
+print(df.info())
+print("\nChecking for Missing Values:")
+print(df.isnull().sum())
+
+print("\nChecking for Zeros in Numeric Columns:")
+print((df.select_dtypes(include='number') == 0).sum())
+
+print("\nChecking for Duplicates:") # The data is small so we won't delete duplicates
+print(f"Duplicates: {df.duplicated().sum()}")
+
+print("\nData Types:") 
+print(df.dtypes)
+
+print("\nCorrelation Matrix:")
+print(df.corr(numeric_only=True))
 
 # Visualize pairplot
 sns.pairplot(df, hue='Species')
