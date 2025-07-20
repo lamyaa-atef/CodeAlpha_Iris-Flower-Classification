@@ -1,117 +1,160 @@
-# 🌸 Iris Flower Classification
+# Diabetes Prediction and Analysis
 
-This is **Task 1** of my internship with **CodeAlpha – Data Science Track (July to September 2025)**.  
-The goal of this project is to classify Iris flowers into three species using their physical measurements through a supervised machine learning model.
-
----
-
-## 📌 Objective
-
-- Use measurements of sepal and petal length/width to predict the flower species.
-- Apply a classification model using scikit-learn.
-- Evaluate its performance and visualize the feature relationships.
+This project explores a diabetes dataset using data visualization, preprocessing, and logistic regression modeling. The goal is to predict diabetes outcomes based on medical attributes.
 
 ---
 
-## 📊 Dataset
+## 📊 Dataset Overview
 
-- **Source:** [Kaggle – Iris CSV Dataset](https://www.kaggle.com/datasets/saurabh00007/iriscsv)
-- **Rows:** 150 samples
-- **Features:**
-  - SepalLengthCm
-  - SepalWidthCm
-  - PetalLengthCm
-  - PetalWidthCm
-- **Target:** Species (`Iris-setosa`, `Iris-versicolor`, `Iris-virginica`)
+The dataset contains the following columns:
 
----
-
-## ⚙️ Tools & Libraries Used
-
-- Python 🐍
-- Pandas
-- Seaborn
-- Matplotlib
-- Scikit-learn (`RandomForestClassifier`, `train_test_split`, `metrics`)
+- Pregnancies
+- Glucose
+- BloodPressure
+- SkinThickness
+- Insulin
+- BMI
+- DiabetesPedigreeFunction
+- Age
+- Outcome (Target: 1 for diabetic, 0 for non-diabetic)
 
 ---
 
-## 🚀 Workflow
+## 🔍 Exploratory Data Analysis (EDA)
 
-1. **Load and clean data** (removed `Id` column)
-2. **Visualize** the relationships between features using pairplots
-3. **Split** dataset into training and testing sets (80/20)
-4. **Train** a `RandomForestClassifier` model
-5. **Evaluate** performance using accuracy, confusion matrix, and classification report
+### a. Count of Outcome Classes
 
----
-
-## 📈 Model Evaluation
-
-```
-Accuracy: 1.0
-
-Confusion Matrix:
- [[10  0  0]
-  [ 0  9  0]
-  [ 0  0 11]]
-
-Classification Report:
-                  precision    recall  f1-score   support
-
-    Iris-setosa       1.00      1.00      1.00        10
-Iris-versicolor       1.00      1.00      1.00         9
- Iris-virginica       1.00      1.00      1.00        11
-
-       accuracy                           1.00        30
-      macro avg       1.00      1.00      1.00        30
-   weighted avg       1.00      1.00      1.00        30
+```python
+sns.countplot(x='Outcome', data=df)
+plt.title("Count of Diabetes Outcome")
+plt.savefig("images/countplot_outcome.png")
+plt.show()
 ```
 
----
-
-## 📊 Visualization
-
-Below is a **pairplot** showing the relationships between all numeric features, color-coded by species:
-
-![Pairplot of Iris Dataset](Pairplot_of_Iris_Dataset.png)
-
-- `PetalLengthCm` and `PetalWidthCm` show the clearest separation between species.
-- `Iris-setosa` is completely separable from the other two classes.
-- Some overlap exists between `Iris-versicolor` and `Iris-virginica`.
+📷 ![Countplot](images/countplot_outcome.png)
 
 ---
 
-## 🗂 Project Structure
+### b. Correlation Heatmap
+
+```python
+plt.figure(figsize=(10,8))
+sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
+plt.title("Correlation Matrix")
+plt.savefig("images/correlation_heatmap.png")
+plt.show()
+```
+
+📷 ![Heatmap](images/correlation_heatmap.png)
+
+---
+
+### c. Glucose & Other Feature Distributions
+
+```python
+for col in df.columns[:-1]:
+    sns.histplot(df[col], kde=True)
+    plt.title(f'Distribution of {col}')
+    plt.savefig(f"images/histplot_{col}.png")
+    plt.show()
+```
+
+📷 ![Histogram Glucose](images/histplot_Glucose.png)
+
+---
+
+## 🧹 Data Preprocessing
+
+- **Replaced 0s** with `NaN` for features where zero is not physiologically valid: `Glucose`, `BloodPressure`, `SkinThickness`, `Insulin`, `BMI`.
+- **Imputed** missing values with median of each feature.
+- **Split** dataset into training and testing sets.
+
+---
+
+## 🤖 Model Training
+
+Used **Logistic Regression** from `sklearn.linear_model`.  
+Split data: 75% training, 25% testing.
+
+**Before cleaning:** Accuracy = **74.68%**  
+**After cleaning:** Accuracy = **75.32%** ✅
+
+### Classification Report:
 
 ```
-Iris-Flower-Classification/
-├── Iris.csv
-├── iris_classifier.py
-├── Pairplot_of_Iris_Dataset.png
+              precision    recall  f1-score   support
+
+           0       0.80      0.83      0.81        99
+           1       0.67      0.62      0.64        55
+
+    accuracy                           0.75       154
+   macro avg       0.73      0.72      0.73       154
+weighted avg       0.75      0.75      0.75       154
+```
+
+### Confusion Matrix:
+
+```
+[[82 17]
+ [21 34]]
+```
+
+---
+
+## 📌 Insights & Conclusions
+
+### 🧠 Who is more vulnerable?
+- People with **higher glucose levels**, **BMI**, and **age** are more likely to have diabetes.
+- Females with **multiple pregnancies** are also at higher risk.
+- The model reveals that **Glucose** is the most influential factor, followed by **BMI** and **Age**.
+
+### ⚠️ Where do the outliers come from?
+- Features like **Insulin**, **SkinThickness**, and **BloodPressure** have many **zero values**, which are likely **missing values** entered incorrectly.
+- These were replaced with `NaN` and imputed to improve the model.
+
+### 🔗 Are there relationships between the factors?
+- Strong positive correlation between **Glucose** and **Outcome**.
+- Moderate relationship between **BMI** and **Outcome**.
+- Weak or no correlation between **SkinThickness** and **Outcome**, suggesting it may not be a strong predictor.
+
+---
+
+## 📁 Folder Structure
+
+```
+project-folder/
+│
+├── images/
+│   ├── countplot_outcome.png
+│   ├── correlation_heatmap.png
+│   ├── histplot_Pregnancies.png
+│   ├── histplot_BloodPressure.png
+│   ├── histplot_BMI.png
+│   ├── histplot_DiabetesPedigreeFunction.png
+│   ├── histplot_Insulin.png
+│   ├── histplot_SkinThickness.png
+│   ├── histplot_Glucose.png
+│   ├── histplot_Age.png
+│   ├── countplot_outcome_after_cleaning.png
+│   ├── correlation_heatmap_after_cleaning.png
+│   ├── histplot_Pregnancies_after_cleaning.png
+│   ├── histplot_BloodPressure_after_cleaning.png
+│   ├── histplot_BMI_after_cleaning.png
+│   ├── histplot_DiabetesPedigreeFunction_after_cleaning.png
+│   ├── histplot_Insulin_after_cleaning.png
+│   ├── histplot_SkinThickness_after_cleaning.png
+│   ├── histplot_Glucose_after_cleaninge.png
+│   └── histplot_Age_after_cleaning.png
+│
+├── diabetes.csv
+├── Diabetes Prediction and Analysis.ipynb
 └── README.md
 ```
 
 ---
 
-## ✅ Outcome
+## ✅ Next Steps
 
-- The model achieved **100% accuracy** on the test data.
-- The dataset is ideal for beginners to practice classification and visualization.
-- Successfully submitted as part of **CodeAlpha Internship Task 1**.
-
----
-
-## 👩‍💻 Author
-
-**Lamyaa Atef Hosney**  
-Intern @ CodeAlpha | Data Science Track  
-📅 Duration: July 25 – September 25, 2025  
-📫 LinkedIn: [https://www.linkedin.com/in/lamyaa-atef]  
-🔗 GitHub: [https://github.com/lamyaa-atef]
-
----
-
-## 🏷️ Tags
-
-`#CodeAlpha` `#DataScience` `#MachineLearning` `#Python` `#IrisDataset` `#RandomForest` `#Internship`
+- Try different classifiers (Random Forest, XGBoost).
+- Address class imbalance using SMOTE or resampling.
+- Tune hyperparameters for better performance.
