@@ -17,7 +17,8 @@ print(df.head())
 # Drop the 'Id' column
 df.drop("Id", axis=1, inplace=True)
 
-# EDA Checks
+# EDA Checks to make sure data is clean
+
 print("Data Info:")
 print(df.info())
 print("\nChecking for Missing Values:")
@@ -31,9 +32,6 @@ print(f"Duplicates: {df.duplicated().sum()}")
 
 print("\nData Types:") 
 print(df.dtypes)
-
-print("\nCorrelation Matrix:")
-print(df.corr(numeric_only=True))
 
 # Visualize pairplot
 sns.pairplot(df, hue='Species')
