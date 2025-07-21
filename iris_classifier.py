@@ -17,21 +17,22 @@ print(df.head())
 # Drop the 'Id' column
 df.drop("Id", axis=1, inplace=True)
 
-# EDA Checks to make sure data is clean
+# EDA Checks to make sure the data is clean
 
 print("Data Info:")
 print(df.info())
-print("\nChecking for Missing Values:") # There are no missing values in the dataset
-print(df.isnull().sum())
 
-print("\nChecking for Zeros in Numeric Columns:") # There are no zeros in the dataset, but we check just in case     
+print("\nChecking for Zeros in Numeric Columns:")    
 print((df.select_dtypes(include='number') == 0).sum())
 
 print("\nChecking for Duplicates:") # The data is small so we won't delete duplicates
 print(f"Duplicates: {df.duplicated().sum()}")
 
-print("\nData Types:")
-print(df.dtypes)
+print("\nChecking unique values in the 'Species' column:") 
+print(df['Species'].unique())
+
+print("\nChecking the counts of each species")
+print(df['Species'].value_counts())
 
 # Visualize pairplot
 sns.pairplot(df, hue='Species')
