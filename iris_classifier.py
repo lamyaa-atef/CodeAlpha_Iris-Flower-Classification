@@ -18,20 +18,19 @@ print(df.head())
 df.drop("Id", axis=1, inplace=True)
 
 # EDA Checks to make sure the data is clean
-
 print("Data Info:")
 print(df.info())
 
 print("\nChecking for Zeros in Numeric Columns:")    
 print((df.select_dtypes(include='number') == 0).sum())
 
-print("\nChecking for unique values in the 'Species' column:") 
+print("\nChecking for Unique Values in the 'Species' Column:") 
 print(df['Species'].unique())
 
-print("\nChecking for the counts of each species")
+print("\nChecking the Counts of each Species:")
 print(df['Species'].value_counts())
 
-print("\nChecking for Duplicates:") # The data is small so we won't delete duplicates
+print("\nChecking for Duplicates:") # The data is small and balanced so we won't delete duplicates
 print(f"Duplicates: {df.duplicated().sum()}")
 
 # Visualize pairplot
