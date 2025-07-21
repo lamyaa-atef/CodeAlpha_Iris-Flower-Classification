@@ -17,7 +17,7 @@ print(df.head())
 # Drop the 'Id' column
 df.drop("Id", axis=1, inplace=True)
 
-# EDA Checks to make sure the data is clean
+# EDA checks to make sure the data is clean
 print("Data Info:")
 print(df.info())
 
