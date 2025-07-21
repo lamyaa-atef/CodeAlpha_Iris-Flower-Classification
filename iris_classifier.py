@@ -25,10 +25,10 @@ print(df.info())
 print("\nChecking for Zeros in Numeric Columns:")    
 print((df.select_dtypes(include='number') == 0).sum())
 
-print("\nChecking unique values in the 'Species' column:") 
+print("\nChecking for unique values in the 'Species' column:") 
 print(df['Species'].unique())
 
-print("\nChecking the counts of each species")
+print("\nChecking for the counts of each species")
 print(df['Species'].value_counts())
 
 print("\nChecking for Duplicates:") # The data is small so we won't delete duplicates
