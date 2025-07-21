@@ -25,14 +25,14 @@ print(df.info())
 print("\nChecking for Zeros in Numeric Columns:")    
 print((df.select_dtypes(include='number') == 0).sum())
 
-print("\nChecking for Duplicates:") # The data is small so we won't delete duplicates
-print(f"Duplicates: {df.duplicated().sum()}")
-
 print("\nChecking unique values in the 'Species' column:") 
 print(df['Species'].unique())
 
 print("\nChecking the counts of each species")
 print(df['Species'].value_counts())
+
+print("\nChecking for Duplicates:") # The data is small so we won't delete duplicates
+print(f"Duplicates: {df.duplicated().sum()}")
 
 # Visualize pairplot
 sns.pairplot(df, hue='Species')
